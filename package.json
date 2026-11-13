@@ -1,0 +1,27 @@
+{
+  "name": "watch-shop",
+  "version": "0.3.0",
+  "description": "TIMELESS watch store (men's, women's, smart) - Express + EJS + MongoDB (Mongoose), MVC.",
+  "main": "server.js",
+"scripts": {
+  "start": "node --env-file=.env server.js",
+  "dev": "node --watch --env-file=.env server.js",
+  "seed": "node --env-file=.env seeds/seedProducts.js",
+  "postinstall": "node scripts/copy-fonts.js"
+},
+  "engines": {
+    "node": ">=20.6"
+  },
+  "dependencies": {
+    "ejs": "^3.1.10",
+    "express": "^4.19.2",
+    "mongoose": "^8.9.0"
+  },
+  "devDependencies": {
+    "@fontsource/oswald": "^5.0.0",
+    "@fontsource/sacramento": "^5.0.0",
+    "vazirmatn": "^33.0.0"
+    
+  },
+  "license": "ISC"
+}

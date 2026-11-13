@@ -1,0 +1,16 @@
+<%- include('../partials/head') %>
+<%- include('../partials/admin-start') %>
+      <h1 class="page-title">داشبورد</h1>
+      <div class="kpis" data-kpis></div>
+      <div class="admin-grid">
+        <section class="panel" aria-labelledby="p-status">
+          <h2 id="p-status" class="panel__title">سفارش‌ها بر اساس وضعیت</h2>
+          <div data-status-bars></div>
+        </section>
+        <section class="panel" aria-labelledby="p-recent">
+          <h2 id="p-recent" class="panel__title">آخرین سفارش‌ها</h2>
+          <div class="table-wrap" data-recent-orders></div>
+        </section>
+      </div>
+<%- include('../partials/admin-end') %>
+<%- include('../partials/foot') %>

@@ -1,0 +1,10 @@
+<%- include('../partials/head') %>
+<main id="main" class="container cart-page">
+  <nav class="breadcrumb" aria-label="مسیر صفحه">
+    <a href="/">خانه</a><span aria-hidden="true">/</span><span aria-current="page">سبد خرید</span>
+  </nav>
+  <h1 class="page-title">سبد خرید</h1>
+  <p class="demo-banner"><%- include('../partials/icon', { name: 'info' }) %><span>نسخه نمایشی: سبد فقط در همین مرورگر ذخیره می‌شود و ثبت سفارش واقعی در مرحله بک‌اند ساخته می‌شود.</span></p>
+  <div data-cart-root aria-live="polite"></div>
+</main>
+<%- include('../partials/foot') %>

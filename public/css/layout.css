@@ -1,0 +1,470 @@
+/* layout.css — container, header (topbar, logo, primary nav), footer, floating support. */
+
+.container {
+  width: 100%;
+  max-width: calc(var(--container) + var(--gutter) * 2);
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+}
+
+main {
+  display: block;
+  min-height: 60vh;
+}
+
+/* ---------- Header ---------- */
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 60;
+  background: var(--paper);
+  border-block-end: 1px solid transparent;
+  transition: border-color 0.25s;
+}
+.site-header.is-compact {
+  border-color: var(--line);
+}
+
+.topbar {
+  max-height: 44px;
+  overflow: hidden;
+  font-size: 12px;
+  color: var(--ink-2);
+  transition: max-height 0.3s var(--ease), opacity 0.2s;
+}
+.site-header.is-compact .topbar {
+  max-height: 0;
+  opacity: 0;
+}
+.topbar__inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 40px;
+}
+.topbar__currency strong {
+  color: var(--ink);
+  font-weight: 600;
+}
+.topbar__links {
+  display: flex;
+  align-items: center;
+  gap: 22px;
+  margin-inline-start: auto; /* stays on the end side now that the currency label is gone */
+}
+.topbar__links a {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  transition: color 0.2s;
+}
+.topbar__links a:hover {
+  color: var(--ink);
+}
+.topbar__links .icon-btn {
+  width: 28px;
+  height: 28px;
+}
+.topbar__links .icon {
+  width: 17px;
+  height: 17px;
+}
+
+.count {
+  display: inline-grid;
+  place-items: center;
+  min-width: 17px;
+  height: 17px;
+  padding: 0 4px;
+  border-radius: 99px;
+  background: var(--ink);
+  color: #fff;
+  font-size: 10px;
+  font-weight: 600;
+  line-height: 1;
+}
+.icon-btn .count {
+  position: absolute;
+  inset-block-start: 3px;
+  inset-inline-end: 1px;
+}
+
+.brandbar {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  padding-block: 18px 14px;
+  transition: padding 0.3s var(--ease);
+}
+.site-header.is-compact .brandbar {
+  padding-block: 10px 6px;
+}
+.brand {
+  grid-column: 2;
+  justify-self: center;
+}
+.menu-toggle {
+  display: none;
+  grid-column: 1;
+  justify-self: start;
+}
+.brandbar__actions {
+  display: none;
+  grid-column: 3;
+  justify-self: end;
+  align-items: center;
+}
+
+/* Logo: dial mark + wordmark */
+.logo {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  color: var(--ink);
+}
+.logo__mark {
+  width: 44px;
+  height: 44px;
+  transition: width 0.3s var(--ease), height 0.3s var(--ease);
+}
+.logo__word {
+  font-family: var(--font-brand);
+  font-size: 28px;
+  font-weight: 600;
+  letter-spacing: 0.3em;
+  line-height: 1;
+  margin-inline-end: -0.3em; /* cancels the trailing letter-space so the word looks centered */
+  direction: ltr;
+  transition: font-size 0.3s var(--ease);
+}
+.logo:has(.logo__tag) {
+  flex-wrap: wrap;
+  justify-content: center;
+}
+.logo__tag {
+  display: block;
+  flex-basis: 100%;
+  order: 3;
+  margin-block-start: -4px;
+  text-align: center;
+  font-size: 9px;
+  letter-spacing: 0.5em;
+  text-transform: uppercase;
+  color: var(--muted);
+  direction: ltr;
+}
+.site-header.is-compact .logo__mark {
+  width: 30px;
+  height: 30px;
+}
+.site-header.is-compact .logo__word {
+  font-size: 21px;
+}
+.site-header.is-compact .logo__tag {
+  display: none;
+}
+
+/* Primary nav: a centered, thin-bordered strip like the reference */
+.primary-nav {
+  padding-block-end: 14px;
+  transition: padding 0.3s var(--ease);
+}
+.site-header.is-compact .primary-nav {
+  padding-block-end: 8px;
+}
+.primary-nav__list {
+  display: flex;
+  justify-content: center;
+}
+.primary-nav__list > li {
+  border-block: 1px solid var(--line);
+  border-inline-start: 1px solid var(--line);
+}
+.primary-nav__list > li:last-child {
+  border-inline-end: 1px solid var(--line);
+}
+.primary-nav__list a {
+  position: relative;
+  display: block;
+  padding: 7px 26px;
+  font-size: 12.5px;
+  font-weight: 500;
+  line-height: 1.6;
+  color: var(--ink);
+  transition: background-color 0.2s, color 0.2s;
+}
+.primary-nav__list a::after {
+  content: '';
+  position: absolute;
+  inset-inline: 26px;
+  inset-block-end: 4px;
+  height: 1px;
+  background: var(--ink);
+  transform: scaleX(0);
+  transition: transform 0.25s var(--ease);
+}
+.primary-nav__list a:hover::after,
+.primary-nav__list a[aria-current='page']::after {
+  transform: scaleX(1);
+}
+
+/* ---------- Footer ---------- */
+.site-footer {
+  background: var(--dark);
+  color: var(--on-dark);
+  margin-block-start: 0;
+}
+.footer__grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 48px 40px;
+  padding-block: 64px 56px;
+}
+.footer__title {
+  font-size: 14px;
+  font-weight: 600;
+  color: #fff;
+  padding-block-end: 14px;
+  margin-block-end: 18px;
+  border-block-end: 1px solid rgba(255, 255, 255, 0.12);
+}
+.footer__list,
+.footer__contact {
+  display: grid;
+  gap: 11px;
+  font-size: 13.5px;
+  color: var(--on-dark-muted);
+  line-height: 1.7;
+}
+.footer__list a,
+.footer__list .link-btn {
+  transition: color 0.2s;
+}
+.footer__list a:hover,
+.footer__list .link-btn:hover {
+  color: #fff;
+}
+.footer__contact li {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+}
+.footer__contact .icon {
+  width: 17px;
+  height: 17px;
+  margin-block-start: 5px;
+  color: #cfcfcf;
+}
+.footer__contact a:hover {
+  color: #fff;
+}
+
+.footer__bar {
+  background: var(--darker);
+  color: var(--on-dark-muted);
+  font-size: 12px;
+}
+.footer__bar-inner {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 24px;
+  justify-content: space-between;
+  padding-block: 18px;
+}
+
+/* ---------- Floating support (bottom right, always on the physical right) ---------- */
+.support {
+  position: fixed;
+  right: 22px;
+  bottom: 22px;
+  z-index: 70;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 12px;
+  direction: ltr;
+}
+.support__btn {
+  display: grid;
+  place-items: center;
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: var(--ink);
+  color: #fff;
+  transition: transform 0.25s var(--ease), background-color 0.2s;
+}
+.support__btn:hover {
+  background: #000;
+  transform: translateY(-2px);
+}
+.support__btn .icon {
+  width: 26px;
+  height: 26px;
+  stroke-width: 1.5;
+}
+.support__panel {
+  order: -1; /* panel sits above the button */
+  width: 232px;
+  background: var(--paper);
+  border: 1px solid var(--line);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  padding: 16px;
+  opacity: 0;
+  transform: translateY(8px);
+  transition: opacity 0.2s, transform 0.25s var(--ease);
+}
+.support.is-open .support__panel {
+  opacity: 1;
+  transform: none;
+}
+.support__title {
+  font-size: 13px;
+  font-weight: 600;
+  padding-block-end: 10px;
+  margin-block-end: 8px;
+  border-block-end: 1px solid var(--line);
+  direction: rtl;
+  text-align: right;
+}
+.support__list {
+  display: grid;
+  gap: 2px;
+}
+.support__item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  padding: 10px 6px;
+  font-size: 13.5px;
+  direction: rtl;
+  transition: background-color 0.2s;
+}
+.support__item .icon {
+  color: var(--ink-2);
+}
+.support__item span {
+  flex: 1;
+  text-align: right;
+}
+.support__item small {
+  font-size: 11px;
+  color: var(--muted);
+}
+a.support__item:hover {
+  background: var(--soft);
+}
+.support__item.is-disabled {
+  color: var(--muted);
+  cursor: default;
+}
+.support__item.is-disabled .icon {
+  color: var(--muted);
+}
+
+/* ---------- Responsive ---------- */
+@media (max-width: 1024px) {
+  .footer__grid {
+    grid-template-columns: repeat(2, 1fr);
+    padding-block: 48px 40px;
+  }
+}
+
+@media (max-width: 860px) {
+  .topbar {
+    display: none;
+  }
+  .menu-toggle,
+  .brandbar__actions {
+    display: inline-flex;
+  }
+  .brandbar {
+    padding-block: 10px;
+    border-block-end: 1px solid var(--line);
+  }
+  .logo__tag {
+    display: none !important;
+  }
+  .logo__mark {
+    width: 32px;
+    height: 32px;
+  }
+  .logo__word {
+    font-size: 21px;
+  }
+  .primary-nav {
+    display: none;
+    padding: 0;
+    border-block-end: 1px solid var(--line);
+    background: var(--paper);
+  }
+  .primary-nav.is-open {
+    display: block;
+  }
+  .primary-nav__list {
+    flex-direction: column;
+    padding-block: 6px;
+  }
+  .primary-nav__list > li,
+  .primary-nav__list > li:last-child {
+    border: 0;
+  }
+  .primary-nav__list a {
+    padding: 12px 4px;
+    font-size: 14px;
+  }
+  .primary-nav__list a::after {
+    display: none;
+  }
+  .primary-nav__list a[aria-current='page'] {
+    font-weight: 700;
+  }
+}
+
+@media (max-width: 560px) {
+  :root {
+    --gutter: 16px;
+  }
+  .footer__grid {
+    grid-template-columns: 1fr;
+    gap: 36px;
+    padding-block: 40px 32px;
+  }
+  .footer__bar-inner {
+    padding-block-end: 82px; /* keeps the text clear of the floating support button */
+  }
+  .support {
+    right: 14px;
+    bottom: 14px;
+  }
+  .support__btn {
+    width: 52px;
+    height: 52px;
+  }
+  .support__panel {
+    width: min(232px, calc(100vw - 28px));
+  }
+}
+
+/* LTR page: Persian list items are right-to-left blocks, so restore icon-first order in the footer. */
+html[dir='ltr'] .footer__contact li {
+  flex-direction: row-reverse;
+  justify-content: flex-start;
+}
+
+/* Login / account link in the top bar */
+.topbar__login {
+  font-weight: 600;
+  color: var(--ink);
+}
+.topbar__links a[data-auth] .icon {
+  width: 16px;
+  height: 16px;
+}
+html[dir='ltr'] .topbar__links a[data-auth] {
+  flex-direction: row-reverse;
+}
+[hidden] {
+  display: none !important;
+}

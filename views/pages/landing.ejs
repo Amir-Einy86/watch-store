@@ -1,0 +1,131 @@
+<%- include('../partials/head') %>
+<main id="main">
+
+  <!-- Hero -->
+  <section class="hero container" aria-labelledby="hero-title">
+    <div class="hero__text">
+      <p class="script hero__script" aria-hidden="true">New!</p>
+      <h1 id="hero-title" class="hero__title">پاییز / زمستان ۱۴۰۵</h1>
+      <p class="hero__lead">مجموعه تازه ساعت‌های مردانه، زنانه و هوشمند؛ ساده، شیک و آماده انتخاب.</p>
+      <a class="link-arrow" href="#collections">مشاهده مجموعه‌ها <%- include('../partials/icon', { name: 'arrow-right' }) %></a>
+    </div>
+    <a class="hero__watch hero__watch--main" href="/product/men-tag-heuer-carrera" aria-label="TAG Heuer Carrera">
+      <img src="/images/men/08-tag-heuer-carrera.png" alt="ساعت TAG Heuer Carrera" width="200" height="283">
+    </a>
+    <a class="hero__watch hero__watch--side" href="/product/women-tissot-prx" aria-label="Tissot PRX">
+      <img src="/images/women/04-tissot-prx.png" alt="ساعت Tissot PRX" width="183" height="282">
+    </a>
+  </section>
+
+  <!-- Category carousel + products of the selected category -->
+  <section class="section collections" id="collections" aria-labelledby="collections-title">
+    <div class="container">
+      <header class="section-head">
+        <h2 id="collections-title" class="section-title">مجموعه‌ها</h2>
+        <div class="carousel-nav" aria-label="پیمایش مجموعه‌ها">
+          <button type="button" class="icon-btn" data-carousel-prev aria-label="قبلی"><%- include('../partials/icon', { name: 'chev-left' }) %></button>
+          <button type="button" class="icon-btn" data-carousel-next aria-label="بعدی"><%- include('../partials/icon', { name: 'chev-right' }) %></button>
+        </div>
+      </header>
+
+      <div class="carousel" data-carousel>
+        <div class="carousel__track category-track" role="tablist" aria-label="دسته‌بندی ساعت‌ها" data-category-tabs>
+          <button type="button" class="category-card" role="tab" id="tab-men" aria-selected="false" aria-controls="catalog-panel" data-category="men" data-theme="men">
+            <span class="category-card__art">
+              <img src="/images/men/01-rolex-submariner.png" alt="" width="203" height="285" loading="lazy">
+              <img src="/images/men/03-seiko-presage.png" alt="" width="191" height="287" loading="lazy">
+            </span>
+            <span class="category-card__body">
+              <span class="category-card__title">ساعت مردانه</span>
+              <span class="category-card__count" data-count="men"></span>
+            </span>
+          </button>
+          <button type="button" class="category-card" role="tab" id="tab-women" aria-selected="false" aria-controls="catalog-panel" data-category="women" data-theme="women">
+            <span class="category-card__art">
+              <img src="/images/women/02-cartier-tank.png" alt="" width="147" height="283" loading="lazy">
+              <img src="/images/women/08-swarovski-crystal.png" alt="" width="178" height="283" loading="lazy">
+            </span>
+            <span class="category-card__body">
+              <span class="category-card__title">ساعت زنانه</span>
+              <span class="category-card__count" data-count="women"></span>
+            </span>
+          </button>
+          <button type="button" class="category-card" role="tab" id="tab-smart" aria-selected="false" aria-controls="catalog-panel" data-category="smart" data-theme="smart">
+            <span class="category-card__art category-card__art--placeholder">
+              <%- include('../partials/icon', { name: 'watch', cls: 'icon--xl' }) %>
+            </span>
+            <span class="category-card__body">
+              <span class="category-card__title">ساعت هوشمند</span>
+              <span class="category-card__count" data-count="smart"></span>
+            </span>
+          </button>
+        </div>
+      </div>
+
+      <div class="catalog" id="catalog-panel" role="tabpanel" data-catalog data-theme="men" tabindex="-1">
+        <header class="catalog__head">
+          <div>
+            <h3 class="catalog__title" data-catalog-title></h3>
+            <p class="catalog__meta" data-catalog-meta aria-live="polite"></p>
+          </div>
+          <a class="link-arrow" data-catalog-all href="/watches/men">مشاهده همه با فیلتر قیمت و بند <%- include('../partials/icon', { name: 'arrow-right' }) %></a>
+        </header>
+        <div class="product-grid" data-catalog-grid></div>
+        <nav class="pagination" data-catalog-pagination aria-label="صفحه‌بندی محصولات"></nav>
+      </div>
+    </div>
+  </section>
+
+  <!-- Promo band -->
+  <section class="promo" aria-labelledby="promo-title">
+    <div class="container">
+      <div class="promo__box">
+        <p class="script promo__script" aria-hidden="true">Essential</p>
+        <h2 id="promo-title" class="promo__title">مجموعه ضروری هم‌اکنون موجود است</h2>
+        <p class="promo__text">ساعت‌هایی برای هر روز؛ از کلاسیک تا هوشمند. دسته مورد علاقه‌تان را انتخاب کنید و با فیلتر قیمت و نوع بند، سریع‌تر به ساعت مناسب برسید.</p>
+        <a class="btn btn--dark" href="#collections">مشاهده مجموعه‌ها</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Featured carousel -->
+  <section class="section featured" aria-labelledby="featured-title">
+    <div class="container">
+      <header class="section-head">
+        <h2 id="featured-title" class="section-title">برگزیده‌ها <span class="section-sub">: مجموعه پاییز را ببینید</span></h2>
+        <div class="carousel-nav" aria-label="پیمایش برگزیده‌ها">
+          <button type="button" class="icon-btn" data-carousel-prev aria-label="قبلی"><%- include('../partials/icon', { name: 'chev-left' }) %></button>
+          <button type="button" class="icon-btn" data-carousel-next aria-label="بعدی"><%- include('../partials/icon', { name: 'chev-right' }) %></button>
+        </div>
+      </header>
+      <div class="carousel" data-carousel>
+        <div class="carousel__track carousel__track--products" data-featured-track></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- About the shop -->
+  <section class="section about" id="about" aria-labelledby="about-title">
+    <div class="container">
+      <div class="about-card">
+        <div class="about-card__intro">
+          <p class="eyebrow">معرفی مجموعه</p>
+          <h2 id="about-title" class="about-card__title"><%= site.brand.name %> <span class="about-card__fa">/ <%= site.brand.nameFa %></span></h2>
+          <p>
+            <%= site.brand.name %> یک فروشگاه اینترنتی ساعت مچی است؛ جایی برای دیدن و انتخاب ساعت مردانه، زنانه و هوشمند در یک مکان، با چیدمانی ساده و بدون شلوغی.
+          </p>
+          <p>
+            هدف ما این است که پیدا کردن ساعت مناسب سریع و آرام باشد: دسته‌بندی روشن، نمایش پنج ساعت در هر صفحه، و فیلتر قیمت و نوع بند.
+          </p>
+        </div>
+        <ul class="about-card__points">
+          <li><strong>سه دسته اصلی</strong><span>ساعت مردانه، زنانه و هوشمند</span></li>
+          <li><strong>انتخاب ساده</strong><span>فیلتر قیمت و بند چرمی، استیل و سیلیکونی</span></li>
+          <li><strong>ورود با پیامک</strong><span>ورود با شماره موبایل و کد یک‌بارمصرف</span></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+</main>
+<%- include('../partials/foot') %>

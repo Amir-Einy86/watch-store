@@ -1,0 +1,34 @@
+# Dependencies
+node_modules/
+
+# Environment files (secrets) — keep only the example
+.env
+.env.*
+!.env.example
+
+# Fonts copied from node_modules by "npm install" (scripts/copy-fonts.js)
+public/fonts/
+
+# Logs
+*.log
+npm-debug.log*
+logs/
+
+# Uploads / temporary files
+uploads/
+tmp/
+coverage/
+
+# Operating system
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Kept only on this computer (not sent to GitHub)
+/README.md
+/watch online store/
+
+# Editors
+.vscode/
+.idea/
+*.swp

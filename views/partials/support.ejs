@@ -1,0 +1,32 @@
+<% const sc = site.contact; %>
+<div class="support" data-support>
+  <div class="support__panel" id="support-panel" data-support-panel role="dialog" aria-label="راه‌های ارتباط با پشتیبانی" hidden>
+    <p class="support__title">پشتیبانی <%= site.brand.name %></p>
+    <ul class="support__list">
+      <li>
+        <% if (sc.sms) { %>
+        <a class="support__item" href="sms:<%= sc.sms %>"><%- include('icon', { name: 'sms' }) %><span>پیامک</span></a>
+        <% } else { %>
+        <span class="support__item is-disabled" aria-disabled="true"><%- include('icon', { name: 'sms' }) %><span>پیامک</span><small>به‌زودی</small></span>
+        <% } %>
+      </li>
+      <li>
+        <% if (sc.phone) { %>
+        <a class="support__item" href="tel:<%= sc.phone.replace(/\s/g, '') %>"><%- include('icon', { name: 'phone' }) %><span>تماس تلفنی</span></a>
+        <% } else { %>
+        <span class="support__item is-disabled" aria-disabled="true"><%- include('icon', { name: 'phone' }) %><span>تماس تلفنی</span><small>به‌زودی</small></span>
+        <% } %>
+      </li>
+      <li>
+        <% if (sc.telegram) { %>
+        <a class="support__item" href="https://t.me/<%= sc.telegram %>" target="_blank" rel="noopener"><%- include('icon', { name: 'telegram' }) %><span>تلگرام</span></a>
+        <% } else { %>
+        <span class="support__item is-disabled" aria-disabled="true"><%- include('icon', { name: 'telegram' }) %><span>تلگرام</span><small>به‌زودی</small></span>
+        <% } %>
+      </li>
+    </ul>
+  </div>
+  <button type="button" class="support__btn" data-support-toggle aria-expanded="false" aria-controls="support-panel" aria-label="پشتیبانی">
+    <%- include('icon', { name: 'headset' }) %>
+  </button>
+</div>

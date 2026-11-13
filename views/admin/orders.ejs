@@ -1,0 +1,13 @@
+<%- include('../partials/head') %>
+<%- include('../partials/admin-start') %>
+      <div class="admin-head">
+        <h1 class="page-title">سفارش‌ها</h1>
+      </div>
+      <div class="admin-tools">
+        <div class="field"><label for="o-status">وضعیت</label>
+          <select id="o-status" data-order-filter><option value="">همه</option></select>
+        </div>
+      </div>
+      <div class="table-wrap" data-orders-table></div>
+<%- include('../partials/admin-end') %>
+<%- include('../partials/foot') %>

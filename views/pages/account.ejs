@@ -1,0 +1,29 @@
+<%- include('../partials/head') %>
+<main id="main" class="container account-page">
+  <nav class="breadcrumb" aria-label="مسیر صفحه">
+    <a href="/">خانه</a><span aria-hidden="true">/</span><span aria-current="page">حساب کاربری</span>
+  </nav>
+  <h1 class="page-title">حساب کاربری</h1>
+
+  <section class="account-card" aria-labelledby="acc-profile">
+    <div>
+      <h2 id="acc-profile" class="account-card__title">اطلاعات ورود</h2>
+      <p class="account-card__row"><span data-account-label>شماره موبایل</span><strong dir="ltr" data-account-phone>—</strong></p>
+      <p class="demo-note demo-note--inline"><%- include('../partials/icon', { name: 'info' }) %><span>ورود نمایشی است و فقط در همین مرورگر ذخیره شده.</span></p>
+    </div>
+    <div class="account-card__actions">
+      <a class="btn btn--ghost" href="/admin"><%- include('../partials/icon', { name: 'dashboard' }) %> پنل مدیریت (نمایشی)</a>
+      <button type="button" class="btn btn--dark" data-logout><%- include('../partials/icon', { name: 'logout' }) %> خروج</button>
+    </div>
+  </section>
+
+  <section id="wishlist" class="account-wishlist" aria-labelledby="acc-wishlist">
+    <h2 id="acc-wishlist" class="section-title">علاقه‌مندی‌ها</h2>
+    <div class="product-grid" data-wishlist-grid></div>
+    <div class="state" data-wishlist-empty hidden>
+      <p>هنوز ساعتی به علاقه‌مندی‌ها اضافه نکرده‌اید.</p>
+      <a class="btn btn--dark" href="/#collections">دیدن مجموعه‌ها</a>
+    </div>
+  </section>
+</main>
+<%- include('../partials/foot') %>

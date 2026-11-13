@@ -1,0 +1,50 @@
+<% const activeCat = locals.category ? locals.category.key : null; %>
+<header class="site-header" data-header>
+  <div class="topbar">
+    <div class="container topbar__inner">
+      <nav class="topbar__links" aria-label="دسترسی سریع">
+        <a href="/login" class="topbar__login" data-auth="out"><%- include('icon', { name: 'user' }) %> ورود / ثبت‌نام</a>
+        <a href="/account" data-auth="in" hidden><%- include('icon', { name: 'user' }) %> حساب کاربری</a>
+        <a href="#contact">تماس</a>
+        <a href="/account#wishlist" class="has-count">علاقه‌مندی‌ها <span class="count" data-wishlist-count hidden>0</span></a>
+        <a href="/cart" class="has-count">سبد خرید <span class="count" data-cart-count hidden>0</span></a>
+        <button type="button" class="icon-btn" data-search-open aria-label="جستجوی محصولات"><%- include('icon', { name: 'search' }) %></button>
+      </nav>
+    </div>
+  </div>
+
+  <div class="container brandbar">
+    <button type="button" class="icon-btn menu-toggle" data-menu-toggle aria-expanded="false" aria-controls="primary-nav" aria-label="باز کردن منو"><%- include('icon', { name: 'menu' }) %></button>
+    <a class="brand" href="/" aria-label="<%= site.brand.name %> — صفحه اصلی"><%- include('logo', { tagline: true }) %></a>
+    <div class="brandbar__actions">
+      <button type="button" class="icon-btn" data-search-open aria-label="جستجوی محصولات"><%- include('icon', { name: 'search' }) %></button>
+      <a class="icon-btn" href="/login" data-auth="out" aria-label="ورود / ثبت‌نام"><%- include('icon', { name: 'user' }) %></a>
+      <a class="icon-btn" href="/account" data-auth="in" hidden aria-label="حساب کاربری"><%- include('icon', { name: 'user' }) %></a>
+      <a class="icon-btn has-count" href="/cart" aria-label="سبد خرید"><%- include('icon', { name: 'bag' }) %><span class="count" data-cart-count hidden>0</span></a>
+    </div>
+  </div>
+
+  <nav class="primary-nav" id="primary-nav" aria-label="منوی اصلی" data-primary-nav>
+    <ul class="container primary-nav__list">
+      <li><a href="/"<% if (locals.page === 'landing') { %> aria-current="page"<% } %>>خانه</a></li>
+      <% Object.values(site.categories).forEach(function (c) { %>
+      <li><a href="/watches/<%= c.key %>"<% if (activeCat === c.key) { %> aria-current="page"<% } %>><%= c.titleFa %></a></li>
+      <% }); %>
+      <li><a href="/#about">درباره ما</a></li>
+    </ul>
+  </nav>
+</header>
+
+<div class="search-overlay" data-search hidden>
+  <div class="search-overlay__panel" role="dialog" aria-modal="true" aria-label="جستجوی محصولات">
+    <div class="container">
+      <form class="search-overlay__form" role="search" data-search-form>
+        <%- include('icon', { name: 'search' }) %>
+        <input type="search" data-search-input placeholder="نام ساعت را بنویسید…" autocomplete="off" aria-label="جستجو بر اساس نام">
+        <button type="button" class="icon-btn" data-search-close aria-label="بستن جستجو"><%- include('icon', { name: 'close' }) %></button>
+      </form>
+      <ul class="search-overlay__results" data-search-results aria-live="polite"></ul>
+    </div>
+  </div>
+  <div class="search-overlay__backdrop" data-search-close></div>
+</div>

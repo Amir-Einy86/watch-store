@@ -1,0 +1,92 @@
+<%- include('../partials/head') %>
+<main id="main" class="auth">
+  <!-- Decorative background: soft light, blurred copies of the watch -->
+  <div class="auth__bg" aria-hidden="true">
+    <span class="auth__light auth__light--gold"></span>
+    <span class="auth__light auth__light--white"></span>
+    <img class="auth__ghost auth__ghost--1" src="/images/ui/login-watch.png" alt="" width="686" height="881">
+    <img class="auth__ghost auth__ghost--2" src="/images/ui/login-watch.png" alt="" width="686" height="881">
+    <img class="auth__ghost auth__ghost--3" src="/images/ui/login-watch.png" alt="" width="686" height="881">
+  </div>
+
+  <div class="auth__wrap">
+    <div class="auth-card">
+      <header class="auth-head">
+        <span class="auth-emblem"><%- include('../partials/logo', { markOnly: true }) %></span>
+        <p class="auth-name"><%= site.brand.name %></p>
+        <p class="auth-tagline"><%= site.brand.tagline %></p>
+        <h1 id="auth-title" class="auth-title">خوش آمدید</h1>
+        <p class="auth-lead">برای ادامه وارد حساب خود شوید</p>
+      </header>
+
+      <div class="auth-tabs" role="tablist" aria-label="روش ورود">
+        <button type="button" role="tab" id="tab-password" aria-selected="true" aria-controls="panel-password" data-auth-tab="password">نام کاربری</button>
+        <button type="button" role="tab" id="tab-sms" aria-selected="false" aria-controls="panel-sms" data-auth-tab="sms" tabindex="-1">پیامک</button>
+      </div>
+
+      <!-- Method 1: username + password -->
+      <section id="panel-password" role="tabpanel" aria-labelledby="tab-password" data-auth-panel="password">
+        <form data-password-form novalidate>
+          <div class="auth-field">
+            <label class="sr-only" for="username">نام کاربری</label>
+            <div class="auth-input">
+              <%- include('../partials/icon', { name: 'user' }) %>
+              <input id="username" name="username" type="text" dir="ltr" autocomplete="username" autocapitalize="none" spellcheck="false" maxlength="32" placeholder="نام کاربری" required>
+            </div>
+            <p class="field-error" data-username-error role="alert"></p>
+          </div>
+          <div class="auth-field">
+            <label class="sr-only" for="password">رمز عبور</label>
+            <div class="auth-input">
+              <%- include('../partials/icon', { name: 'lock' }) %>
+              <input id="password" name="password" type="password" dir="ltr" autocomplete="current-password" maxlength="64" placeholder="رمز عبور" required>
+              <button type="button" class="auth-input__eye" data-toggle-password aria-label="نمایش رمز عبور" aria-pressed="false"><%- include('../partials/icon', { name: 'eye' }) %></button>
+            </div>
+            <p class="field-error" data-password-error role="alert"></p>
+          </div>
+          <button type="submit" class="auth-submit"><span data-password-label>ورود</span><%- include('../partials/icon', { name: 'arrow-right' }) %></button>
+          <p class="auth-alt"><button type="button" class="link-btn" data-forgot>رمز عبور را فراموش کرده‌اید؟</button></p>
+        </form>
+      </section>
+
+      <!-- Method 2: SMS code -->
+      <section id="panel-sms" role="tabpanel" aria-labelledby="tab-sms" data-auth-panel="sms" hidden>
+        <div data-step="phone">
+          <p class="auth-hint">شماره موبایل خود را وارد کنید تا کد تأیید برایتان پیامک شود.</p>
+          <form data-phone-form novalidate>
+            <div class="auth-field">
+              <label class="sr-only" for="phone">شماره موبایل</label>
+              <div class="auth-input">
+                <%- include('../partials/icon', { name: 'phone' }) %>
+                <input id="phone" name="phone" type="tel" inputmode="tel" autocomplete="tel" dir="ltr" placeholder="09123456789" maxlength="20" required>
+              </div>
+              <p class="field-error" data-phone-error role="alert"></p>
+            </div>
+            <button type="submit" class="auth-submit"><span>دریافت کد تأیید</span><%- include('../partials/icon', { name: 'arrow-right' }) %></button>
+          </form>
+        </div>
+
+        <div data-step="otp" hidden>
+          <p class="auth-hint">کد ۶ رقمی برای <strong dir="ltr" data-phone-view></strong> ارسال شد.</p>
+          <form data-otp-form novalidate>
+            <div class="otp" data-otp dir="ltr" role="group" aria-label="کد تأیید شش رقمی">
+              <% for (let i = 1; i <= 6; i++) { %>
+              <input type="text" inputmode="numeric" autocomplete="<%= i === 1 ? 'one-time-code' : 'off' %>" maxlength="1" aria-label="رقم <%= i %>" data-otp-digit>
+              <% } %>
+            </div>
+            <p class="field-error" data-otp-error role="alert"></p>
+            <button type="submit" class="auth-submit"><span>ورود</span><%- include('../partials/icon', { name: 'arrow-right' }) %></button>
+            <p class="auth-alt auth-alt--row">
+              <button type="button" class="link-btn" data-back>تغییر شماره</button>
+              <span><span data-timer></span> <button type="button" class="link-btn" data-resend disabled>ارسال مجدد کد</button></span>
+            </p>
+          </form>
+        </div>
+      </section>
+
+      <p class="demo-note"><%- include('../partials/icon', { name: 'info' }) %><span>نسخه نمایشی: پیامکی ارسال نمی‌شود، هر کد ۶ رقمی پذیرفته می‌شود و نام کاربری و رمز عبور بررسی واقعی نمی‌شوند. ورود واقعی در مرحله بک‌اند ساخته می‌شود.</span></p>
+    </div>
+    <p class="auth-foot">© 2026 <%= site.brand.name %></p>
+  </div>
+</main>
+<%- include('../partials/foot') %>

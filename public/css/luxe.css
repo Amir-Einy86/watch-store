@@ -1,0 +1,426 @@
+/* luxe.css — restyles the whole site to match the login page: light golden scene, frosted glass
+   surfaces, pill controls and gold buttons. Loaded after pages.css; admin.css loads after it.
+   Colors live in the variables below, so the look can be tuned from here. */
+
+:root {
+  --gold-1: #e0be58;
+  --gold-2: #c49925;
+  --gold-3: #a67c1e;
+  --gold-grad: linear-gradient(135deg, #d8b248 0%, #c49925 50%, #af8219 100%);
+  --gold-glow: 0 8px 24px -4px rgba(197, 155, 39, 0.4);
+  --glass: rgba(255, 255, 255, 0.52);
+  --glass-strong: rgba(255, 255, 255, 0.78);
+  --glass-line: rgba(255, 255, 255, 0.92);
+  --glass-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.1), inset 0 0 20px rgba(255, 255, 255, 0.45);
+  --card-shadow: 0 14px 34px -14px rgba(60, 50, 20, 0.18);
+  --line: rgba(0, 0, 0, 0.09);
+  --soft: rgba(255, 255, 255, 0.55);
+  --band: rgba(255, 255, 255, 0.55);
+  --r-card: 26px;
+}
+
+/* ---------- Scene ---------- */
+html {
+  background: #eceef2;
+}
+body {
+  background: transparent;
+}
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background: radial-gradient(ellipse 60% 50% at 88% 28%, rgba(225, 185, 110, 0.22), transparent 70%),
+    radial-gradient(ellipse 50% 40% at 6% 70%, rgba(255, 255, 255, 0.9), transparent 70%),
+    radial-gradient(circle at 18% 12%, #ffffff 0%, #f5f5f6 38%, #e6e8ed 100%);
+}
+::selection {
+  background: var(--gold-2);
+  color: #fff;
+}
+:focus-visible {
+  outline-color: var(--gold-2);
+}
+
+/* ---------- Buttons ---------- */
+.btn {
+  border-radius: 99px;
+  min-height: 46px;
+  border-color: transparent;
+}
+.btn--dark,
+.btn--primary {
+  background: var(--gold-grad);
+  color: #fff;
+  box-shadow: var(--gold-glow);
+  transition: box-shadow 0.2s, filter 0.2s, transform 0.15s;
+}
+.btn--dark:hover,
+.btn--primary:hover {
+  background: var(--gold-grad);
+  filter: brightness(1.07);
+  box-shadow: 0 12px 28px -4px rgba(197, 155, 39, 0.55);
+}
+.btn--dark:active {
+  transform: scale(0.99);
+}
+.btn--ghost {
+  background: var(--glass);
+  border: 1px solid var(--glass-line);
+  color: var(--ink);
+}
+.btn--ghost:hover {
+  background: #fff;
+  color: var(--gold-3);
+  border-color: rgba(197, 155, 39, 0.55);
+}
+.link-arrow:hover {
+  color: var(--gold-3);
+}
+.icon-btn:hover {
+  opacity: 1;
+  color: var(--gold-3);
+}
+
+/* ---------- Header ---------- */
+.site-header {
+  background: transparent; /* blends into the page scene until the user scrolls */
+  transition: background-color 0.25s, border-color 0.25s, box-shadow 0.25s;
+}
+.site-header.is-compact {
+  background: rgba(255, 255, 255, 0.72);
+  -webkit-backdrop-filter: blur(20px) saturate(135%);
+  backdrop-filter: blur(20px) saturate(135%);
+  border-color: var(--glass-line);
+  box-shadow: 0 10px 30px -18px rgba(60, 50, 20, 0.25);
+}
+.topbar__links a:hover {
+  color: var(--gold-3);
+}
+.topbar__login {
+  color: var(--gold-3);
+}
+.count {
+  background: var(--gold-grad);
+}
+.primary-nav__list {
+  gap: 6px;
+  width: fit-content;
+  margin-inline: auto;
+  padding: 4px;
+  background: var(--glass);
+  border: 1px solid var(--glass-line);
+  border-radius: 99px;
+}
+.primary-nav__list > li,
+.primary-nav__list > li:last-child {
+  border: 0;
+}
+.primary-nav__list a {
+  padding: 7px 22px;
+  border-radius: 99px;
+}
+.primary-nav__list a::after {
+  display: none;
+}
+.primary-nav__list a:hover {
+  background: rgba(255, 255, 255, 0.8);
+}
+.primary-nav__list a[aria-current='page'] {
+  background: #fff;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+  color: var(--gold-3);
+  font-weight: 600;
+}
+.logo__mark {
+  color: var(--gold-2);
+}
+.logo__tag {
+  color: var(--gold-3);
+}
+@media (max-width: 860px) {
+  .primary-nav {
+    background: rgba(255, 255, 255, 0.94);
+  }
+  .primary-nav__list {
+    width: auto;
+    padding: 6px 0;
+    background: none;
+    border: 0;
+    border-radius: 0;
+  }
+  .primary-nav__list a {
+    border-radius: 0;
+  }
+  .primary-nav__list a[aria-current='page'] {
+    background: none;
+    box-shadow: none;
+  }
+}
+
+/* ---------- Hero, sections ---------- */
+.hero__script,
+.promo__script {
+  color: var(--gold-2);
+  opacity: 0.85;
+}
+.section-title {
+  letter-spacing: 0;
+}
+.catalog {
+  border-block-start: 1px solid rgba(197, 155, 39, 0.45);
+}
+.catalog__title {
+  color: var(--accent);
+}
+
+/* ---------- Category cards ---------- */
+.category-card {
+  border-radius: var(--r-card);
+  background: var(--glass);
+  border: 1px solid var(--glass-line);
+  box-shadow: var(--glass-shadow);
+  -webkit-backdrop-filter: blur(16px);
+  backdrop-filter: blur(16px);
+  transition: transform 0.3s var(--ease), box-shadow 0.3s, border-color 0.25s, background-color 0.25s;
+}
+.category-card:hover {
+  background: var(--glass-strong);
+  transform: translateY(-3px);
+}
+.category-card.is-selected {
+  background: var(--glass-strong);
+  border-color: rgba(197, 155, 39, 0.65);
+  box-shadow: 0 0 0 3px rgba(197, 155, 39, 0.14), var(--glass-shadow);
+}
+.category-card__body {
+  background: rgba(255, 255, 255, 0.6);
+  border-block-start-color: var(--glass-line);
+}
+.category-card.is-selected .category-card__body {
+  background: var(--gold-grad);
+  border-color: transparent;
+}
+
+/* ---------- Product cards: see components.css; only the skeleton shape is tuned here ---------- */
+.skeleton {
+  border-radius: 24px;
+}
+.skeleton--line {
+  border-radius: 99px;
+}
+
+/* ---------- Pagination ---------- */
+.page-btn {
+  border-radius: 99px;
+  background: var(--glass);
+  border-color: var(--glass-line);
+}
+.page-btn:hover:not(:disabled):not(.is-current) {
+  border-color: rgba(197, 155, 39, 0.6);
+  color: var(--gold-3);
+}
+.page-btn.is-current {
+  background: var(--gold-grad);
+  border-color: transparent;
+  box-shadow: var(--gold-glow);
+}
+
+/* ---------- Promo, about ---------- */
+.promo__box,
+.about-card {
+  background: var(--glass);
+  border: 1px solid var(--glass-line);
+  border-radius: 32px;
+  box-shadow: var(--glass-shadow);
+  -webkit-backdrop-filter: blur(20px);
+  backdrop-filter: blur(20px);
+}
+.about-card__points li {
+  border-color: rgba(0, 0, 0, 0.08);
+}
+.about-card__title {
+  font-family: var(--font-brand);
+  font-weight: 600;
+  letter-spacing: 0.12em;
+}
+
+/* ---------- Category page ---------- */
+.cat-hero {
+  background: none;
+  border-block-end: 0;
+}
+.cat-hero__script {
+  color: var(--gold-2);
+  opacity: 0.16;
+}
+.cat-hero__title {
+  color: var(--accent);
+}
+.breadcrumb a:hover {
+  color: var(--gold-3);
+}
+.filters {
+  padding: 22px;
+  background: var(--glass);
+  border: 1px solid var(--glass-line);
+  border-radius: var(--r-card);
+  box-shadow: var(--card-shadow);
+}
+.field input,
+.field select {
+  height: 46px;
+  padding-inline: 20px;
+  border-radius: 99px;
+  background-color: rgba(255, 255, 255, 0.62);
+  border: 1px solid var(--glass-line);
+}
+.field select {
+  background-position: calc(100% - 22px) 20px, calc(100% - 16px) 20px;
+  padding-inline-end: 38px;
+}
+.field input:hover,
+.field select:hover {
+  border-color: rgba(197, 155, 39, 0.45);
+}
+.field input:focus,
+.field select:focus {
+  border-color: rgba(197, 155, 39, 0.65);
+  box-shadow: 0 0 0 3px rgba(197, 155, 39, 0.16);
+}
+.chip {
+  border-radius: 99px;
+  background: var(--glass);
+  border-color: var(--glass-line);
+}
+.chip:hover {
+  border-color: rgba(197, 155, 39, 0.6);
+  color: var(--gold-3);
+}
+.chip[aria-pressed='true'] {
+  background: var(--gold-grad);
+  border-color: transparent;
+  color: #fff;
+}
+.filters > [data-clear] {
+  border-radius: 99px;
+}
+.state__box {
+  background: var(--glass);
+  border: 1px solid var(--glass-line);
+  border-radius: var(--r-card);
+}
+
+/* ---------- Product page ---------- */
+.product-detail__media {
+  border-radius: 30px;
+  background: radial-gradient(ellipse at 50% 100%, rgba(197, 155, 39, 0.18), transparent 64%), var(--glass);
+  border: 1px solid var(--glass-line);
+  box-shadow: var(--glass-shadow);
+}
+.product-detail__price {
+  color: var(--gold-3);
+}
+.specs > * {
+  border-color: rgba(0, 0, 0, 0.08);
+}
+.qty {
+  border-radius: 99px;
+  background: var(--glass);
+  border-color: var(--glass-line);
+  overflow: hidden;
+}
+.heart-btn {
+  border-radius: 99px;
+  background: var(--glass);
+  border-color: var(--glass-line);
+}
+.heart-btn:hover {
+  color: var(--gold-3);
+  border-color: rgba(197, 155, 39, 0.6);
+}
+.heart-btn.is-on {
+  color: #c2453b;
+}
+
+/* ---------- Cart and account ---------- */
+.cart-line,
+.cart-summary,
+.account-card {
+  background: var(--glass);
+  border: 1px solid var(--glass-line);
+  border-radius: var(--r-card);
+  box-shadow: var(--card-shadow);
+}
+.cart-line {
+  padding: 16px;
+}
+.cart-line__media {
+  border-radius: 18px;
+  background: var(--glass-strong);
+}
+.cart-summary {
+  padding: 24px;
+}
+.cart-summary__row--total {
+  color: var(--gold-3);
+}
+.demo-banner,
+.demo-note--inline {
+  border-radius: 16px;
+}
+
+/* ---------- Footer ---------- */
+.site-footer {
+  margin-block-start: 40px;
+  background: linear-gradient(180deg, #2a261e, #1b1813);
+  border-radius: 36px 36px 0 0;
+  overflow: hidden;
+}
+.footer__title {
+  color: var(--gold-1);
+  border-color: rgba(224, 190, 88, 0.2);
+}
+.footer__bar {
+  background: rgba(0, 0, 0, 0.28);
+}
+
+/* ---------- Floating support, search, toast ---------- */
+.support__btn {
+  background: var(--gold-grad);
+  box-shadow: var(--gold-glow);
+}
+.support__btn:hover {
+  background: var(--gold-grad);
+  filter: brightness(1.07);
+}
+.support__panel {
+  background: var(--glass-strong);
+  -webkit-backdrop-filter: blur(20px);
+  backdrop-filter: blur(20px);
+  border: 1px solid var(--glass-line);
+  border-radius: 22px;
+  box-shadow: var(--glass-shadow);
+}
+a.support__item:hover {
+  background: rgba(255, 255, 255, 0.8);
+  border-radius: 12px;
+}
+.search-overlay__panel {
+  background: rgba(255, 255, 255, 0.88);
+  -webkit-backdrop-filter: blur(24px);
+  backdrop-filter: blur(24px);
+}
+.search-overlay__form {
+  border-block-end-color: var(--gold-2);
+}
+.search-result:hover {
+  background: rgba(255, 255, 255, 0.7);
+}
+.toast {
+  border-radius: 99px;
+  padding-inline: 26px;
+  background: #2a261e;
+}

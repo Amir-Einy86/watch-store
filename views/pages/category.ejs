@@ -1,0 +1,58 @@
+<%- include('../partials/head') %>
+<main id="main">
+
+  <section class="cat-hero" aria-labelledby="cat-title">
+    <div class="container">
+      <nav class="breadcrumb" aria-label="مسیر صفحه">
+        <a href="/">خانه</a><span aria-hidden="true">/</span><span aria-current="page"><%= category.titleFa %></span>
+      </nav>
+      <div class="cat-hero__body">
+        <p class="script cat-hero__script" aria-hidden="true"><%= category.script %></p>
+        <h1 id="cat-title" class="cat-hero__title"><%= category.titleFa %></h1>
+        <p class="cat-hero__lead"><%= category.blurb %></p>
+      </div>
+    </div>
+  </section>
+
+  <section class="container catalog-page" aria-label="فهرست محصولات">
+    <form class="filters" data-filters novalidate>
+      <div class="field field--search">
+        <label for="f-q">جستجوی نام</label>
+        <input id="f-q" name="q" type="search" placeholder="مثلاً Seiko" autocomplete="off">
+      </div>
+      <div class="field">
+        <label for="f-min">حداقل قیمت (<%= site.currency %>)</label>
+        <input id="f-min" name="min" type="text" inputmode="numeric" placeholder="۰" autocomplete="off">
+      </div>
+      <div class="field">
+        <label for="f-max">حداکثر قیمت (<%= site.currency %>)</label>
+        <input id="f-max" name="max" type="text" inputmode="numeric" placeholder="بدون سقف" autocomplete="off">
+      </div>
+      <div class="field">
+        <label for="f-sort">مرتب‌سازی</label>
+        <select id="f-sort" name="sort">
+          <option value="">پیش‌فرض</option>
+          <option value="price-asc">ارزان‌ترین</option>
+          <option value="price-desc">گران‌ترین</option>
+        </select>
+      </div>
+      <fieldset class="chips" data-strap-group hidden>
+        <legend>نوع بند</legend>
+        <div class="chips__row" data-strap-chips></div>
+      </fieldset>
+      <button type="button" class="btn btn--ghost" data-clear>پاک کردن فیلترها</button>
+    </form>
+
+    <div class="result-bar">
+      <p class="result-bar__count" data-result-count aria-live="polite"></p>
+    </div>
+
+    <div class="product-grid" data-grid aria-busy="true"></div>
+
+    <div class="state" data-state hidden></div>
+
+    <nav class="pagination" data-pagination aria-label="صفحه‌بندی محصولات"></nav>
+  </section>
+
+</main>
+<%- include('../partials/foot') %>

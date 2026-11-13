@@ -1,0 +1,42 @@
+<%- include('../partials/head') %>
+<%- include('../partials/admin-start') %>
+      <div class="admin-head">
+        <h1 class="page-title">محصولات</h1>
+        <button type="button" class="btn btn--dark" data-add-product><%- include('../partials/icon', { name: 'plus' }) %> افزودن محصول</button>
+      </div>
+      <div class="admin-tools">
+        <div class="field"><label for="a-q">جستجو</label><input id="a-q" type="search" data-admin-q placeholder="نام محصول"></div>
+        <div class="field"><label for="a-cat">دسته</label>
+          <select id="a-cat" data-admin-cat>
+            <option value="">همه</option>
+            <% Object.values(site.categories).forEach(function (c) { %><option value="<%= c.key %>"><%= c.titleFa %></option><% }); %>
+          </select>
+        </div>
+      </div>
+      <div class="table-wrap" data-products-table></div>
+
+      <dialog class="modal" data-product-dialog aria-labelledby="pd-title">
+        <form method="dialog" class="modal__form" data-product-form novalidate>
+          <h2 id="pd-title" class="modal__title" data-dialog-title>ویرایش محصول</h2>
+          <div class="field"><label for="pd-name">نام</label><input id="pd-name" name="name" required maxlength="80"></div>
+          <div class="field"><label for="pd-cat">دسته</label>
+            <select id="pd-cat" name="category">
+              <% Object.values(site.categories).forEach(function (c) { %><option value="<%= c.key %>"><%= c.titleFa %></option><% }); %>
+            </select>
+          </div>
+          <div class="field"><label for="pd-strap">نوع بند</label>
+            <select id="pd-strap" name="strapType">
+              <option value="">نامشخص</option><option value="leather">چرمی</option><option value="steel">استیل</option><option value="silicone">سیلیکونی</option><option value="fabric">پارچه‌ای</option>
+            </select>
+          </div>
+          <div class="field"><label for="pd-price">قیمت (<%= site.currency %>)</label><input id="pd-price" name="price" inputmode="numeric" required></div>
+          <div class="field"><label for="pd-stock">موجودی</label><input id="pd-stock" name="stock" inputmode="numeric" required></div>
+          <p class="field-error" data-dialog-error role="alert"></p>
+          <div class="modal__actions">
+            <button type="button" class="btn btn--ghost" data-dialog-cancel>انصراف</button>
+            <button type="submit" class="btn btn--dark">ذخیره</button>
+          </div>
+        </form>
+      </dialog>
+<%- include('../partials/admin-end') %>
+<%- include('../partials/foot') %>

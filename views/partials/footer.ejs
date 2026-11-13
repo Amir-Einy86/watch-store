@@ -1,0 +1,54 @@
+<% const c = site.contact; const soon = '<span class="soon">به‌زودی اضافه می‌شود</span>'; %>
+<footer class="site-footer" id="footer">
+  <div class="container footer__grid">
+    <section aria-labelledby="f-account">
+      <h2 id="f-account" class="footer__title">حساب کاربری</h2>
+      <ul class="footer__list">
+        <li><a href="/cart">سبد خرید</a></li>
+        <li><a href="/account">حساب من</a></li>
+        <li><a href="/account#wishlist">علاقه‌مندی‌ها</a></li>
+        <li><a href="/login">ورود با پیامک</a></li>
+      </ul>
+    </section>
+
+    <section aria-labelledby="f-shop">
+      <h2 id="f-shop" class="footer__title">فروشگاه</h2>
+      <ul class="footer__list">
+        <% Object.values(site.categories).forEach(function (cat) { %>
+        <li><a href="/watches/<%= cat.key %>"><%= cat.titleFa %></a></li>
+        <% }); %>
+        <li><a href="/#about">درباره ما</a></li>
+      </ul>
+    </section>
+
+    <section aria-labelledby="f-support" id="support">
+      <h2 id="f-support" class="footer__title">پشتیبانی</h2>
+      <ul class="footer__list">
+        <li><button type="button" class="link-btn" data-support-open>گفت‌وگو با پشتیبانی</button></li>
+        <li>
+          <% if (c.sms) { %><a href="sms:<%= c.sms %>">پیامک به پشتیبانی</a><% } else { %>پیامک به پشتیبانی: <%- soon %><% } %>
+        </li>
+        <li>
+          <% if (c.telegram) { %><a href="https://t.me/<%= c.telegram %>" rel="noopener" target="_blank">تلگرام پشتیبانی</a><% } else { %>تلگرام پشتیبانی: <%- soon %><% } %>
+        </li>
+      </ul>
+    </section>
+
+    <section aria-labelledby="f-contact" id="contact">
+      <h2 id="f-contact" class="footer__title">تماس با ما</h2>
+      <ul class="footer__contact">
+        <li><%- include('icon', { name: 'pin' }) %><span><% if (c.address) { %><%= c.address %><% } else { %>آدرس: <%- soon %><% } %></span></li>
+        <li><%- include('icon', { name: 'phone' }) %><span><% if (c.phone) { %><a href="tel:<%= c.phone.replace(/\s/g, '') %>" dir="ltr"><%= c.phone %></a><% } else { %>تلفن: <%- soon %><% } %></span></li>
+        <li><%- include('icon', { name: 'mail' }) %><span><% if (c.email) { %><a href="mailto:<%= c.email %>"><%= c.email %></a><% } else { %>ایمیل: <%- soon %><% } %></span></li>
+        <li><%- include('icon', { name: 'clock' }) %><span><% if (c.hours) { %><%= c.hours %><% } else { %>ساعت پاسخگویی: <%- soon %><% } %></span></li>
+      </ul>
+    </section>
+  </div>
+
+  <div class="footer__bar">
+    <div class="container footer__bar-inner">
+      <span>© <%= new Date().getFullYear() %> <%= site.brand.name %>. تمام حقوق محفوظ است.</span>
+      <span class="footer__demo">نسخه نمایشی — قیمت‌ها و موجودی‌ها آزمایشی هستند</span>
+    </div>
+  </div>
+</footer>

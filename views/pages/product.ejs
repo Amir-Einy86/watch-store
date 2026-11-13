@@ -1,0 +1,20 @@
+<%- include('../partials/head') %>
+<main id="main" class="container product-page" data-product-root aria-busy="true">
+  <nav class="breadcrumb" aria-label="مسیر صفحه" data-breadcrumb>
+    <a href="/">خانه</a>
+  </nav>
+  <div data-product-view>
+    <div class="product-detail product-detail--loading">
+      <div class="skeleton skeleton--image"></div>
+      <div>
+        <div class="skeleton skeleton--line"></div>
+        <div class="skeleton skeleton--line skeleton--short"></div>
+      </div>
+    </div>
+  </div>
+  <section class="related" data-related hidden aria-labelledby="related-title">
+    <h2 id="related-title" class="section-title">محصولات مشابه</h2>
+    <div class="product-grid product-grid--4" data-related-grid></div>
+  </section>
+</main>
+<%- include('../partials/foot') %>

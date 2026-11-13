@@ -1,0 +1,19 @@
+/* themes.css — accent per category, all in the same warm "luxe" family as the login page.
+   PROVISIONAL: replace with the real per-category designs when they are provided.
+   Only the three variables below change per theme. */
+
+[data-theme='men'] {
+  --accent: #a67c1e; /* antique gold */
+  --accent-soft: rgba(255, 255, 255, 0.6);
+  --accent-ink: #ffffff;
+}
+[data-theme='women'] {
+  --accent: #b2705a; /* rose gold */
+  --accent-soft: rgba(255, 246, 242, 0.7);
+  --accent-ink: #ffffff;
+}
+[data-theme='smart'] {
+  --accent: #5e8588; /* cool silver-teal */
+  --accent-soft: rgba(244, 250, 250, 0.7);
+  --accent-ink: #ffffff;
+}

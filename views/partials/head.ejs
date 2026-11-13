@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="<%= site.lang %>" dir="<%= site.dir %>">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title><%= locals.title || site.brand.name %></title>
+  <meta name="description" content="<%= site.brand.name %> — ساعت مچی مردانه، زنانه و هوشمند">
+  <meta name="theme-color" content="#ffffff">
+  <link rel="icon" href="/images/ui/favicon.svg" type="image/svg+xml">
+  <script>document.documentElement.classList.add('js'); /* animations: JS is running */</script>
+  <% if (locals.gate !== false) { %>
+  <script>
+    // Demo gate: every page except /login needs a (demo) session. The real check
+    // happens on the server in the backend phase; this only simulates the flow.
+    (function () {
+      try {
+        if (!localStorage.getItem('timeless.session')) {
+          location.replace('/login?next=' + encodeURIComponent(location.pathname + location.search));
+        }
+      } catch (e) {}
+    })();
+  </script>
+  <% } %>
+  <link rel="stylesheet" href="/css/base.css">
+  <link rel="stylesheet" href="/css/layout.css">
+  <link rel="stylesheet" href="/css/components.css">
+  <link rel="stylesheet" href="/css/themes.css">
+  <link rel="stylesheet" href="/css/pages.css">
+  <link rel="stylesheet" href="/css/luxe.css">
+  <% if (String(locals.page).indexOf('admin') === 0) { %><link rel="stylesheet" href="/css/admin.css"><% } %>
+  <link rel="stylesheet" href="/css/animations.css">
+  <script>window.SITE = <%- siteJson %>;</script>
+  <script src="/js/icons-data.js"></script>
+</head>
+<body data-page="<%= locals.page %>" data-theme="<%= locals.theme || 'default' %>"<% if (locals.slug) { %> data-slug="<%= slug %>"<% } %><% if (locals.category) { %> data-category="<%= category.key %>"<% } %>>
+<a class="skip-link" href="#main">پرش به محتوا</a>
+<% if (!locals.bare) { %><%- include('navbar') %><% } %>

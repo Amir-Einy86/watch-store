@@ -1,0 +1,321 @@
+/* base.css — fonts, design tokens, reset, typography, buttons, icons.
+   Design source: the minimal white watch-store reference (white page, light-gray bands,
+   dark footer, small uppercase labels, script accent words).
+   All spacing uses logical properties, so setting dir="rtl" in config/site.js flips the layout. */
+
+@font-face {
+  font-family: 'Vazirmatn';
+  src: url('/fonts/Vazirmatn.woff2') format('woff2');
+  font-weight: 100 900;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Oswald';
+  src: url('/fonts/Oswald-400.woff2') format('woff2');
+  font-weight: 400;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Oswald';
+  src: url('/fonts/Oswald-500.woff2') format('woff2');
+  font-weight: 500;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Sacramento';
+  src: url('/fonts/Sacramento-400.woff2') format('woff2');
+  font-weight: 400;
+  font-display: swap;
+}
+
+:root {
+  --font-brand: 'Cormorant Garamond', 'Times New Roman', Georgia, serif; /* wordmark only */
+  /* Colors (taken from the reference) */
+  --paper: #ffffff;
+  --band: #ececec; /* light-gray promo band */
+  --soft: #f6f6f6; /* faint panels */
+  --line: #e4e4e4;
+  --ink: #1b1b1b; /* main text, dark buttons */
+  --ink-2: #555555;
+  --muted: #8b8b8b;
+  --dark: #202020; /* footer */
+  --darker: #161616; /* footer bottom bar */
+  --on-dark: #f2f2f2;
+  --on-dark-muted: #9b9b9b;
+  --success: #1f7a4d;
+  --danger: #b3261e;
+
+  /* Category accent (overridden in themes.css) */
+  --accent: var(--ink);
+  --accent-soft: var(--soft);
+  --accent-ink: #ffffff;
+
+  /* Type */
+  --font-body: 'Vazirmatn', 'Segoe UI', Tahoma, system-ui, sans-serif;
+  --font-head: 'Oswald', 'Vazirmatn', 'Arial Narrow', sans-serif;
+  --font-script: 'Sacramento', 'Brush Script MT', cursive;
+
+  /* Space and shape */
+  --gutter: 24px;
+  --container: 1170px;
+  --radius: 0; /* the reference uses square corners */
+  --header-h: 120px;
+  --ease: cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+  scroll-behavior: smooth;
+  scroll-padding-top: 90px; /* anchors stay below the sticky header */
+}
+
+body {
+  margin: 0;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--font-body);
+  font-size: 15px;
+  line-height: 1.8;
+  text-align: left; /* page direction is LTR by request; see "Persian text" below */
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Persian text in an LTR page: each text block gets its own right-to-left direction so
+   punctuation lands on the correct side, while alignment still follows the page (left).
+   `:where()` keeps specificity at zero, so any component can override it.
+   When site.dir is 'rtl' this block is not used. */
+:where(html[dir='ltr']) :where(p, h1, h2, h3, h4, h5, h6, li, dt, dd, label, small, figcaption, legend) {
+  direction: rtl;
+  text-align: inherit;
+}
+.script,
+.ltr {
+  direction: ltr;
+}
+
+img,
+svg {
+  display: block;
+  max-width: 100%;
+}
+img {
+  height: auto;
+}
+
+h1,
+h2,
+h3,
+h4,
+p,
+ul,
+ol,
+figure {
+  margin: 0;
+}
+ul,
+ol {
+  padding: 0;
+  list-style: none;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button,
+input,
+select,
+textarea {
+  font: inherit;
+  color: inherit;
+}
+button {
+  cursor: pointer;
+  background: none;
+  border: 0;
+  padding: 0;
+}
+button:disabled {
+  cursor: not-allowed;
+}
+
+[hidden] {
+  display: none !important;
+}
+
+:focus-visible {
+  outline: 2px solid var(--ink);
+  outline-offset: 3px;
+}
+
+::selection {
+  background: var(--ink);
+  color: #fff;
+}
+
+.skip-link {
+  position: absolute;
+  inset-inline-start: 8px;
+  top: -60px;
+  z-index: 200;
+  background: var(--ink);
+  color: #fff;
+  padding: 8px 14px;
+  font-size: 13px;
+}
+.skip-link:focus {
+  top: 8px;
+}
+
+body.no-scroll {
+  overflow: hidden;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* ---------- Icons ---------- */
+.icon {
+  width: 20px;
+  height: 20px;
+  flex: none;
+}
+.icon--lg {
+  width: 32px;
+  height: 32px;
+}
+.icon--xl {
+  width: 56px;
+  height: 56px;
+  stroke-width: 1.2;
+}
+.icon-btn {
+  position: relative;
+  display: inline-grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  color: var(--ink);
+  transition: color 0.2s, opacity 0.2s;
+}
+.icon-btn:hover {
+  opacity: 0.6;
+}
+.icon-btn:disabled {
+  opacity: 0.25;
+}
+
+/* ---------- Type helpers ---------- */
+.script {
+  font-family: var(--font-script);
+  font-weight: 400;
+  line-height: 1;
+  color: var(--muted);
+}
+.eyebrow {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--muted);
+  margin-block-end: 10px;
+}
+.page-title {
+  font-size: 28px;
+  font-weight: 600;
+  line-height: 1.4;
+}
+
+/* ---------- Buttons and links ---------- */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 46px;
+  padding: 0 32px;
+  border: 1px solid var(--ink);
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 1;
+  transition: background-color 0.2s, color 0.2s, border-color 0.2s;
+}
+.btn--dark {
+  background: var(--ink);
+  color: #fff;
+}
+.btn--dark:hover {
+  background: #000;
+}
+.btn--ghost {
+  background: transparent;
+  color: var(--ink);
+}
+.btn--ghost:hover {
+  background: var(--ink);
+  color: #fff;
+}
+.btn:disabled {
+  opacity: 0.4;
+  pointer-events: none;
+}
+
+.link-arrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  border-block-end: 1px solid transparent;
+  transition: gap 0.2s var(--ease), border-color 0.2s;
+}
+.link-arrow .icon {
+  width: 16px;
+  height: 16px;
+}
+.link-arrow:hover {
+  gap: 12px;
+  border-color: currentColor;
+}
+
+.link-btn {
+  color: inherit;
+  text-align: start;
+  border-block-end: 1px solid transparent;
+}
+.link-btn:hover {
+  border-color: currentColor;
+}
+
+.soon {
+  font-size: 12px;
+  font-style: normal;
+  color: var(--on-dark-muted);
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
+}

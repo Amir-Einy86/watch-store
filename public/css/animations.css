@@ -1,0 +1,456 @@
+/* animations.css — all motion for TIMELESS ("Golden Hour" concept).
+   Only ADDS motion: no layout, text or color changes. Delete this file (and its <link> in
+   views/partials/head.ejs) to remove every animation.
+   Everything that moves lives inside @media (prefers-reduced-motion: no-preference), so users
+   who ask their system for less motion get a still page. */
+
+/* =========================================================
+   1. MOTION TOKENS — change speed / intensity here
+   ========================================================= */
+:root {
+  /* Durations */
+  --motion-fast: 180ms; /* hover, press, small feedback */
+  --motion-base: 460ms; /* most reveals */
+  --motion-slow: 760ms; /* hero, page entrance, big panels */
+
+  /* Easing curves */
+  --ease-luxe: cubic-bezier(0.16, 1, 0.3, 1); /* long, elegant slow-down (expo out) */
+  --ease-soft: cubic-bezier(0.4, 0, 0.2, 1); /* neutral, for color/opacity */
+  --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1); /* tiny overshoot, for feedback */
+
+  /* Intensity */
+  --motion-distance: 24px; /* how far elements travel when they appear */
+  --motion-scale: 0.96; /* how small elements start when they "grow" in */
+  --motion-stagger: 70; /* ms between items of a list (read by animations.js) */
+
+  /* Living background (read by background.js) */
+  --bg-intensity: 1; /* 0 = invisible, 1 = normal, 1.5 = stronger */
+  --bg-speed: 1; /* 0.5 = slower, 2 = faster */
+
+  /* Direction helpers: in an RTL page horizontal motion is mirrored */
+  --dir: 1;
+  --origin-start: left center;
+}
+html[dir='rtl'] {
+  --dir: -1;
+  --origin-start: right center;
+}
+
+/* =========================================================
+   2. LIVING BACKGROUND canvas (drawn by background.js)
+   ========================================================= */
+.living-bg {
+  position: fixed;
+  inset: 0;
+  z-index: -1; /* behind all content */
+  width: 100%;
+  height: 100%;
+  pointer-events: none; /* never blocks clicks */
+  opacity: 0;
+  transition: opacity 1.2s var(--ease-soft);
+}
+.living-bg.is-ready {
+  opacity: 1;
+}
+
+/* =========================================================
+   3. KEYFRAMES (all start with "am-" = animation)
+   Only "from" is written: the browser animates to the element's normal style.
+   ========================================================= */
+@keyframes am-fade {
+  from { opacity: 0; }
+}
+@keyframes am-rise {
+  from { opacity: 0; transform: translate3d(0, var(--motion-distance), 0); }
+}
+@keyframes am-rise-sm {
+  from { opacity: 0; transform: translate3d(0, 10px, 0); }
+}
+@keyframes am-rise-scale {
+  from { opacity: 0; transform: translate3d(0, calc(var(--motion-distance) * 0.75), 0) scale(var(--motion-scale)); }
+}
+@keyframes am-drop {
+  from { opacity: 0; transform: translate3d(0, -14px, 0); }
+}
+@keyframes am-unveil {
+  from { opacity: 0; transform: translate3d(calc(var(--dir) * var(--motion-distance) * -1), 0, 0); }
+}
+@keyframes am-slide-end {
+  from { opacity: 0; transform: translate3d(calc(var(--dir) * var(--motion-distance) * 1.4), 0, 0); }
+}
+@keyframes am-slide-start {
+  from { opacity: 0; transform: translate3d(calc(var(--dir) * var(--motion-distance) * -1), 0, 0); }
+}
+@keyframes am-glass {
+  from { opacity: 0; transform: translate3d(0, calc(var(--motion-distance) * 0.6), 0) scale(0.975); }
+}
+@keyframes am-focus {
+  from { opacity: 0; transform: scale(1.08); filter: blur(10px); }
+}
+@keyframes am-grow-x {
+  from { transform: scaleX(0); }
+}
+@keyframes am-img-settle {
+  from { opacity: 0; transform: scale(1.12); }
+}
+@keyframes am-write {
+  /* the script word appears from left to right, like handwriting */
+  from { opacity: 0; clip-path: inset(0 100% 0 0); }
+  30% { opacity: 1; }
+  to { clip-path: inset(0 0 0 0); }
+}
+@keyframes am-page-in {
+  from { opacity: 0; transform: translate3d(0, 12px, 0); }
+}
+@keyframes am-watch-in {
+  from { opacity: 0; transform: translate3d(0, 44px, 0) rotate(var(--watch-tilt, -6deg)); filter: blur(8px); }
+  60% { filter: blur(0); }
+}
+@keyframes am-float {
+  to { transform: translate3d(0, -8px, 0); }
+}
+@keyframes am-card-in {
+  from { opacity: 0; transform: translate3d(0, 28px, 0) scale(0.97); }
+}
+@keyframes am-breathe {
+  to { transform: translate3d(-3vw, 2vh, 0) scale(1.08); }
+}
+@keyframes am-ghost-drift {
+  to { transform: translate3d(1.5vw, 2.5vh, 0); }
+}
+@keyframes am-hand-in {
+  from { transform: rotate(var(--hand-from, -360deg)); }
+}
+@keyframes am-hand-spin {
+  to { transform: rotate(360deg); }
+}
+@keyframes am-sheen {
+  from { transform: translateX(calc(var(--dir) * -110%)); }
+  to { transform: translateX(calc(var(--dir) * 110%)); }
+}
+@keyframes am-modal-in {
+  from { opacity: 0; transform: translate3d(0, 16px, 0) scale(0.96); }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  /* =========================================================
+     4. SCROLL REVEAL SYSTEM
+     animations.js gives elements data-reveal="effect" and later adds .is-revealed.
+     Elements are hidden ONLY when JS is running (html.js) — if JS fails, all is visible.
+     ========================================================= */
+  html.js [data-reveal]:not(.is-revealed) {
+    opacity: 0;
+  }
+  html.js [data-reveal].is-revealed {
+    /* "backwards" = use the first keyframe during the delay, then give control back
+       to the normal CSS (so hover effects keep working afterwards) */
+    animation: var(--reveal-anim, am-fade) var(--reveal-dur, var(--motion-base)) var(--reveal-ease, var(--ease-luxe))
+      var(--reveal-delay, 0ms) backwards;
+  }
+  [data-reveal='fade'] { --reveal-anim: am-fade; --reveal-ease: var(--ease-soft); }
+  [data-reveal='rise'] { --reveal-anim: am-rise; }
+  [data-reveal='rise-sm'] { --reveal-anim: am-rise-sm; --reveal-dur: 320ms; }
+  [data-reveal='rise-scale'] { --reveal-anim: am-rise-scale; --reveal-dur: var(--motion-slow); }
+  [data-reveal='drop'] { --reveal-anim: am-drop; }
+  [data-reveal='unveil'] { --reveal-anim: am-unveil; --reveal-dur: var(--motion-slow); }
+  [data-reveal='slide-end'] { --reveal-anim: am-slide-end; --reveal-dur: var(--motion-slow); }
+  [data-reveal='slide-start'] { --reveal-anim: am-slide-start; }
+  [data-reveal='glass'] { --reveal-anim: am-glass; --reveal-dur: var(--motion-slow); }
+  [data-reveal='card'] { --reveal-anim: am-rise-scale; --reveal-dur: 560ms; }
+  [data-reveal='focus'] { --reveal-anim: am-fade; --reveal-dur: var(--motion-slow); }
+  [data-reveal='grow'] {
+    --reveal-anim: am-grow-x;
+    --reveal-dur: 900ms;
+    transform-origin: var(--origin-start);
+  }
+
+  /* Product card: the watch photo settles inside the card ("zoom out" into place) */
+  html.js [data-reveal='card'].is-revealed .product-card__media img {
+    animation: am-img-settle var(--motion-slow) var(--ease-luxe) calc(var(--reveal-delay, 0ms) + 80ms) backwards;
+  }
+  /* Product page: the big photo comes into focus like a camera lens */
+  html.js [data-reveal='focus'].is-revealed img {
+    animation: am-focus 900ms var(--ease-luxe) calc(var(--reveal-delay, 0ms) + 60ms) backwards;
+  }
+
+  /* Promo box: one soft light sweep across the glass after it appears */
+  .promo__box {
+    position: relative;
+    overflow: hidden;
+  }
+  .promo__box::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background: linear-gradient(105deg, transparent 30%, rgba(255, 244, 214, 0.55) 50%, transparent 70%);
+    transform: translateX(-110%);
+  }
+  html.js .promo__box.is-revealed::after {
+    animation: am-sheen 1.6s var(--ease-soft) calc(var(--reveal-delay, 0ms) + 500ms) both;
+  }
+
+  /* =========================================================
+     5. PAGE LOAD — first screen (pure CSS, starts at first paint, no flash)
+     ========================================================= */
+  html.js .site-header {
+    animation: am-drop var(--motion-slow) var(--ease-luxe) backwards;
+  }
+  /* Generic pages: the main content gently rises in */
+  html.js body:not([data-page='landing']):not([data-page='login']):not([data-page^='admin']) #main {
+    animation: am-page-in var(--motion-slow) var(--ease-luxe) 80ms backwards;
+  }
+
+  /* Logo: the clock hands sweep into place, like a watch being set */
+  .logo__mark path {
+    transform-box: view-box;
+    transform-origin: 50% 50%;
+  }
+  html.js .logo__mark path:nth-of-type(1) {
+    --hand-from: -150deg;
+    animation: am-hand-in 1.4s var(--ease-luxe) 250ms backwards;
+  }
+  html.js .logo__mark path:nth-of-type(2) {
+    --hand-from: -360deg;
+    animation: am-hand-in 1.6s var(--ease-luxe) 250ms backwards;
+  }
+  /* Hover the logo: the minute hand makes one smooth turn */
+  .brand:hover .logo__mark path:nth-of-type(2),
+  .admin__brand:hover .logo__mark path:nth-of-type(2) {
+    animation: am-hand-spin 1.4s var(--ease-luxe);
+  }
+
+  /* Landing hero choreography */
+  html.js .hero__script {
+    animation: am-write 1.2s var(--ease-luxe) 200ms backwards;
+  }
+  html.js .hero__title {
+    animation: am-rise var(--motion-slow) var(--ease-luxe) 420ms backwards;
+  }
+  html.js .hero__lead {
+    animation: am-rise var(--motion-slow) var(--ease-luxe) 520ms backwards;
+  }
+  html.js .hero .link-arrow {
+    animation: am-fade var(--motion-slow) var(--ease-soft) 680ms backwards;
+  }
+  html.js .hero__watch--main {
+    --watch-tilt: -6deg;
+    animation: am-watch-in 1.2s var(--ease-luxe) 260ms backwards, am-float 6s ease-in-out 1.6s infinite alternate;
+  }
+  html.js .hero__watch--side {
+    --watch-tilt: 7deg;
+    animation: am-watch-in 1.2s var(--ease-luxe) 460ms backwards, am-float 7s ease-in-out 2.2s infinite alternate;
+  }
+  /* Pointer parallax (animations.js sets the `translate` property on these images) */
+  .hero__watch img {
+    transition: transform 0.6s var(--ease), translate 0.9s var(--ease-luxe);
+  }
+
+  /* Category page header */
+  html.js .cat-hero__script {
+    animation: am-write 1.3s var(--ease-luxe) 150ms backwards;
+  }
+  html.js .cat-hero__title {
+    animation: am-rise var(--motion-slow) var(--ease-luxe) 280ms backwards;
+  }
+  html.js .cat-hero__lead {
+    animation: am-rise var(--motion-slow) var(--ease-luxe) 380ms backwards;
+  }
+
+  /* 404 */
+  html.js .not-found__script {
+    animation: am-write 1.3s var(--ease-luxe) 200ms backwards;
+  }
+
+  /* Login: the card rises, header lines follow one by one, the light breathes */
+  html.js .auth-card {
+    animation: am-card-in 900ms var(--ease-luxe) 120ms backwards;
+  }
+  html.js .auth-head > * {
+    animation: am-rise-sm var(--motion-base) var(--ease-luxe) backwards;
+  }
+  html.js .auth-head > :nth-child(1) { animation-delay: 380ms; }
+  html.js .auth-head > :nth-child(2) { animation-delay: 450ms; }
+  html.js .auth-head > :nth-child(3) { animation-delay: 520ms; }
+  html.js .auth-head > :nth-child(4) { animation-delay: 590ms; }
+  html.js .auth-head > :nth-child(5) { animation-delay: 660ms; }
+  html.js .auth-tabs {
+    animation: am-fade var(--motion-base) var(--ease-soft) 720ms backwards;
+  }
+  html.js .auth-foot {
+    animation: am-fade var(--motion-slow) var(--ease-soft) 900ms backwards;
+  }
+  .auth__light--gold {
+    animation: am-breathe 14s ease-in-out infinite alternate;
+  }
+  .auth__light--white {
+    animation: am-breathe 18s ease-in-out -6s infinite alternate-reverse;
+  }
+  .auth__ghost--1 { animation: am-ghost-drift 22s ease-in-out infinite alternate; }
+  .auth__ghost--2 { animation: am-ghost-drift 27s ease-in-out -9s infinite alternate-reverse; }
+  .auth__ghost--3 { animation: am-ghost-drift 25s ease-in-out -4s infinite alternate; }
+  /* Switching tabs (username / SMS) or steps (phone / code): the new panel fades in */
+  [data-auth-panel]:not([hidden]),
+  [data-step]:not([hidden]) {
+    animation: am-rise-sm 360ms var(--ease-luxe);
+  }
+
+  /* Admin: sidebar slides in from the start side, content rises */
+  html.js .admin__side {
+    animation: am-slide-start var(--motion-slow) var(--ease-luxe) backwards;
+  }
+  html.js .admin__content {
+    animation: am-page-in var(--motion-slow) var(--ease-luxe) 120ms backwards;
+  }
+
+  /* =========================================================
+     6. MICRO-INTERACTIONS
+     ========================================================= */
+
+  /* Gold buttons: a thin light sweep on hover (like light on polished metal) */
+  .btn--dark,
+  .btn--primary,
+  .auth-submit,
+  .product-card__cart {
+    position: relative;
+    overflow: hidden;
+    isolation: isolate;
+  }
+  .btn--dark::after,
+  .btn--primary::after,
+  .auth-submit::after,
+  .product-card__cart::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+    background: linear-gradient(105deg, transparent 35%, rgba(255, 255, 255, 0.42) 50%, transparent 65%);
+    transform: translateX(calc(var(--dir) * -120%));
+  }
+  .btn--dark:hover::after,
+  .btn--primary:hover::after,
+  .auth-submit:hover:not(:disabled)::after,
+  .product-card__cart:hover:not(:disabled)::after {
+    transform: translateX(calc(var(--dir) * 120%));
+    transition: transform 900ms var(--ease-soft);
+  }
+
+  /* Press feedback: buttons sink slightly and spring back */
+  .icon-btn {
+    transition: color 0.2s, opacity 0.2s, transform var(--motion-fast) var(--ease-spring);
+  }
+  .btn--ghost {
+    transition: background-color 0.2s, color 0.2s, border-color 0.2s, transform var(--motion-fast) var(--ease-spring);
+  }
+  .page-btn,
+  .chip {
+    transition: background-color 0.2s, color 0.2s, border-color 0.2s, transform var(--motion-fast) var(--ease-spring);
+  }
+  .btn:active:not(:disabled),
+  .page-btn:active:not(:disabled),
+  .chip:active,
+  .icon-btn:active:not(:disabled) {
+    transform: scale(0.96);
+  }
+  .auth-submit:active:not(:disabled),
+  .product-card__cart:active:not(:disabled) {
+    transform: scale(0.97);
+  }
+
+  /* Footer links: an underline draws from the start side */
+  .footer__list a {
+    position: relative;
+  }
+  .footer__list a::after {
+    content: '';
+    position: absolute;
+    inset-inline: 0;
+    bottom: -2px;
+    height: 1px;
+    background: currentColor;
+    transform: scaleX(0);
+    transform-origin: var(--origin-start);
+    transition: transform 0.35s var(--ease-luxe);
+  }
+  .footer__list a:hover::after {
+    transform: scaleX(1);
+  }
+
+  /* Product cards: a soft light follows the pointer across the glass */
+  @media (hover: hover) and (pointer: fine) {
+    .product-card::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      z-index: 1;
+      border-radius: inherit;
+      pointer-events: none;
+      background: radial-gradient(260px circle at var(--mx, 50%) var(--my, 30%), rgba(255, 248, 228, 0.55), transparent 60%);
+      opacity: 0;
+      transition: opacity 0.4s var(--ease-soft);
+    }
+    .product-card:hover::after {
+      opacity: 1;
+    }
+  }
+
+  /* Inputs: focus ring grows smoothly; errors slide in */
+  .field input,
+  .field select {
+    transition: border-color 0.2s, box-shadow var(--motion-fast) var(--ease-soft);
+  }
+  .field-error:not(:empty) {
+    animation: am-rise-sm 260ms var(--ease-luxe);
+  }
+
+  /* Header: thin gold scroll-progress line (element added by animations.js) */
+  .anim-progress {
+    position: absolute;
+    inset-inline: 0;
+    bottom: 0;
+    height: 2px;
+    background: var(--gold-grad);
+    transform: scaleX(0);
+    transform-origin: var(--origin-start);
+    opacity: 0;
+    transition: opacity 0.3s var(--ease-soft);
+    pointer-events: none;
+  }
+  .site-header.is-compact .anim-progress {
+    opacity: 0.85;
+  }
+
+  /* Mobile menu: links arrive one after another */
+  @media (max-width: 860px) {
+    .primary-nav.is-open .primary-nav__list > li {
+      animation: am-rise-sm 360ms var(--ease-luxe) backwards;
+    }
+    .primary-nav.is-open .primary-nav__list > li:nth-child(2) { animation-delay: 40ms; }
+    .primary-nav.is-open .primary-nav__list > li:nth-child(3) { animation-delay: 80ms; }
+    .primary-nav.is-open .primary-nav__list > li:nth-child(4) { animation-delay: 120ms; }
+    .primary-nav.is-open .primary-nav__list > li:nth-child(5) { animation-delay: 160ms; }
+    .primary-nav.is-open .primary-nav__list > li:nth-child(n + 6) { animation-delay: 200ms; }
+  }
+
+  /* Support panel: items arrive one after another */
+  .support.is-open .support__list > li {
+    animation: am-rise-sm 320ms var(--ease-luxe) backwards;
+  }
+  .support.is-open .support__list > li:nth-child(2) { animation-delay: 50ms; }
+  .support.is-open .support__list > li:nth-child(3) { animation-delay: 100ms; }
+
+  /* Modal (admin product dialog) */
+  .modal[open] {
+    animation: am-modal-in 340ms var(--ease-luxe);
+  }
+  .modal[open]::backdrop {
+    animation: am-fade 260ms var(--ease-soft);
+  }
+
+  /* Toast: slides up with a tiny spring */
+  .toast {
+    transform: translate3d(0, 14px, 0) scale(0.96);
+    transition: opacity var(--motion-fast) var(--ease-soft), transform var(--motion-base) var(--ease-spring);
+  }
+}

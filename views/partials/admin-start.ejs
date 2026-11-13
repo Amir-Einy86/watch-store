@@ -1,0 +1,17 @@
+<% const ap = locals.page; function adminLink(href, key, label, icon) { return '<a href="' + href + '"' + (ap === key ? ' aria-current="page"' : '') + '>' + label + '</a>'; } %>
+<div class="admin">
+  <aside class="admin__side" aria-label="منوی مدیریت">
+    <a class="admin__brand" href="/admin"><%- include('logo', { tagline: false }) %><span class="admin__brand-sub">مدیریت</span></a>
+    <nav class="admin__nav">
+      <a href="/admin"<% if (ap === 'admin-dashboard') { %> aria-current="page"<% } %>><%- include('icon', { name: 'dashboard' }) %>داشبورد</a>
+      <a href="/admin/products"<% if (ap === 'admin-products') { %> aria-current="page"<% } %>><%- include('icon', { name: 'watch' }) %>محصولات</a>
+      <a href="/admin/inventory"<% if (ap === 'admin-inventory') { %> aria-current="page"<% } %>><%- include('icon', { name: 'box' }) %>موجودی</a>
+      <a href="/admin/orders"<% if (ap === 'admin-orders') { %> aria-current="page"<% } %>><%- include('icon', { name: 'list' }) %>سفارش‌ها</a>
+    </nav>
+    <div class="admin__side-foot">
+      <a href="/"><%- include('icon', { name: 'bag' }) %>بازگشت به فروشگاه</a>
+    </div>
+  </aside>
+  <div class="admin__main">
+    <p class="admin__banner" role="note"><%- include('icon', { name: 'alert' }) %><span>داده‌های این بخش آزمایشی‌اند و فقط در همین مرورگر ذخیره می‌شوند. ورود مدیر و کنترل دسترسی واقعی در مرحله بک‌اند ساخته می‌شود.</span></p>
+    <main id="main" class="admin__content">
